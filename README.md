@@ -22,4 +22,4 @@
     适配器使用 ArrayAdapter<String>。
 
 ####（4）结果
-    ![Alt Text](https://github.com/wq923/ListView/blob/master/image/image01.png)
+![Alt Text](https://github.com/wq923/ListView/blob/master/image/image01.png)
