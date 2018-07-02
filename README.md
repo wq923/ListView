@@ -192,6 +192,8 @@
     }
 ![Alt Text](https://github.com/wq923/ListView/blob/master/image/image02.png)
 ### 2.3、ListView 优化
+（1）性能优化
+
     由前面 2.1、2.2 实践可见，ListView 主要涉及数据、布局、适配器三个方面。
 
     首先，2.2 中实现的适配器代码运行效率较低，因为在 getView() 方法中，每
@@ -267,4 +269,40 @@
                 TextView airlinesName;
                 TextView airlinesCode;
             }
+        }
+
+（2）定义 ListView 属性
+
+a、设置分割线
+
+    <ListView
+        android:id="@+id/id_lv_demo02"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="4dp">
+    </ListView>
+![Alt Text](https://github.com/wq923/ListView/blob/master/image/image03.png)
+b、隐藏滚动条
+
+    <ListView
+        android:id="@+id/id_lv_demo02"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="4dp"
+        android:scrollbars="none">
+    </ListView>
+c、动态修改 ListView
+
+    @Override
+        public void onBackPressed() {
+            AirlinesBO abo = new AirlinesBO("中国国际航空公司", "CA", R.drawable.ca);
+            mAirlinesList.add(abo);
+            adapter.notifyDataSetChanged();
+            //lv.setSelection(mAirlinesList.size() - 1);
+
+            lv.smoothScrollBy(10, 8000);
+            lv.smoothScrollByOffset(10);
+            lv.smoothScrollToPosition(mAirlinesList.size() - 1);
         }
