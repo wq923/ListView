@@ -300,8 +300,10 @@ c、动态修改 ListView
             AirlinesBO abo = new AirlinesBO("中国国际航空公司", "CA", R.drawable.ca);
             mAirlinesList.add(abo);
             adapter.notifyDataSetChanged();
+            //瞬间移动到指定的 position
             //lv.setSelection(mAirlinesList.size() - 1);
 
+            //缓慢滚动 ListView 到指定的 position
             lv.smoothScrollBy(10, 8000);
             lv.smoothScrollByOffset(10);
             lv.smoothScrollToPosition(mAirlinesList.size() - 1);
