@@ -3,7 +3,9 @@ package com.github.wq423.listview;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -70,6 +72,42 @@ public class AirlinsListActivity extends Activity{
             }
         });
 
+        //4、触摸滑动监听事件
+        lv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
+        //5、滚动监听事件
+        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                    {
+                        Log.d(TAG, "onScrollStateChanged: " + "停止滚动");
+                        break;
+                    }
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                    {
+                        Log.d(TAG, "onScrollStateChanged: 正在滚动");
+                        break;
+                    }
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                    {
+                        Log.d(TAG, "onScrollStateChanged: 惯性滚动");
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //Log.d(TAG, "onScroll: 不停的滚动");
+            }
+        });
     }
 
     @Override
