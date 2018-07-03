@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.github.wq423.listview.adapter.AirlinesAdapter;
@@ -20,15 +21,12 @@ import java.util.List;
 
 public class AirlinsListActivity extends Activity{
 
-
-    private String[] mAirlines = {"中国国际航空公司 ca", "中国南方航空公司 cz",
-            "中国东方航空公司 mu", "中国海南航空公司 hu", "中国山东航空公司 SC",
-            "中国四川航空公司 3U", "中国厦门航空公司 MF","中国深圳航空公司 ZH",
-            "中国吉祥航空公司 HO","中国河北航空公司 NS", "中国祥鹏航空公司 8L",
-            "中国奥凯航空公司 BK", "中国上海航空公司 FM","中国春秋航空公司 9C"};
     private static final String TAG = "AirlinsListActivity";
 
     private List<AirlinesBO> mAirlinesList = new ArrayList<>();
+
+    private ListView lv;
+    private AirlinesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +34,7 @@ public class AirlinsListActivity extends Activity{
 
         setContentView(R.layout.lv_demo02);
 
+        //1、初始化数据
         // ctrl + d 复制一行
         AirlinesBO bo1 = new AirlinesBO("中国国际航空公司", "CA", R.drawable.ca);
         AirlinesBO bo2 = new AirlinesBO("中国东方航空公司", "MU", R.drawable.mu);
@@ -49,13 +48,19 @@ public class AirlinsListActivity extends Activity{
             mAirlinesList.add(bo4);
         }
 
-        AirlinesAdapter adapter = new AirlinesAdapter(
+        //2、将数据和布局传入适配器
+        adapter = new AirlinesAdapter(
                 AirlinsListActivity.this,
                 R.layout.airlines_info_item,
                 mAirlinesList);
 
-        ListView lv = findViewById(R.id.id_lv_demo02);
+        lv = findViewById(R.id.id_lv_demo02);
+        ImageView img = findViewById(R.id.id_default_listview);
+        lv.setEmptyView(img);
+
         lv.setAdapter(adapter);
+
+        //3、设置监听事件
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
@@ -65,5 +70,18 @@ public class AirlinsListActivity extends Activity{
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        AirlinesBO abo = new AirlinesBO("中国国际航空公司", "CA", R.drawable.ca);
+        mAirlinesList.add(0, abo);      //将数据添加到 ListView 第一个位置
+        adapter.notifyDataSetChanged();
+//        lv.setSelection(mAirlinesList.size() - 1);
+
+//        lv.smoothScrollBy(10, 8000);
+//        lv.smoothScrollByOffset(10);
+//        lv.smoothScrollToPosition(mAirlinesList.size() - 1);
+        lv.smoothScrollToPosition(0);       //滚动到第一个位置
     }
 }
