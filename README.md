@@ -308,3 +308,86 @@ c、动态修改 ListView
             lv.smoothScrollByOffset(10);
             lv.smoothScrollToPosition(mAirlinesList.size() - 1);
         }
+d、设置 ListView 为空时的默认视图
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.github.wq423.listview.MainActivity">
+
+    <TextView
+        android:text="航空公司列表"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:background="@color/colorPrimary"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <ListView
+        android:id="@+id/id_lv_demo02"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="4dp"
+        android:scrollbars="none"
+        android:listSelector="#00000000">
+    </ListView>
+    <ImageView
+        android:id="@+id/id_default_listview"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+        ImageView img = findViewById(R.id.id_default_listview);
+        lv.setEmptyView(img);   //设置默认视图
+e、监听事件 ListView
+
+    //3、设置监听事件
+    lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            AirlinesBO airlinesBo = mAirlinesList.get(position);
+            Log.d(TAG, "onItemClick: "+ airlinesBo.getName() + " "+airlinesBo.getCode());
+        }
+    });
+
+    //4、触摸滑动监听事件
+    lv.setOnTouchListener(new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return false;
+        }
+    });
+
+    //5、滚动监听事件
+    lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            switch (scrollState) {
+                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                {
+                    Log.d(TAG, "onScrollStateChanged: " + "停止滚动");
+                    break;
+                }
+                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                {
+                    Log.d(TAG, "onScrollStateChanged: 正在滚动");
+                    break;
+                }
+                case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                {
+                    Log.d(TAG, "onScrollStateChanged: 惯性滚动");
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            //Log.d(TAG, "onScroll: 不停的滚动");
+        }
+    });
